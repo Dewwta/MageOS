@@ -92,9 +92,6 @@ main:
 ;
 ; Error Handlers
 ;
-
-
-
 floppy_error:
     mov si, msg_read_failed
     call puts
