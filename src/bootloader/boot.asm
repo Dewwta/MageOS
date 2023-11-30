@@ -87,6 +87,35 @@ main:
 .halt:
     jmp .halt
 
+;
+; Disk Routines
+;
+
+;
+; Converts an LBA adress to a CHS adress
+; Parameters: 
+;   - ax: LBA address
+; Returns:
+;   - cx [bits 0-5]: sector number
+;   - cx [bits 6-15]: cylinder
+;   - dh: head
+
+lba_to_chs:
+
+    xor dx, dx                          ; dx = 0
+    div word [bdb_sectors_per_track]    ; ax = LBA / SectorsPerTrack
+                                        ; dx = LBA % SectorsPerTrack
+
+    inc dx                              ; dx = (LBA % SectorsPerTrack + 1) = sector
+    mov cx,dx                           ; cx = sector
+    
+    xor dx, dx                          ; dx = 0
+    div word[bdb_heads]                 ; ax = (LBA / SectorsPerTrack) / Heads
+                                        ; dx = (LBA / SectorsPerTrack) % Heads
+
+
+
+
 
 
 msg_hello: db 'Hello world!', ENDL, 0
